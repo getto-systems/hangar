@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.4.0
+
+- fix: push : See merge request getto-systems-labo/hangar!10
+
+
 ## Version : 0.3.0
 
 - fix: ignore tag : See merge request getto-systems-labo/hangar!9
