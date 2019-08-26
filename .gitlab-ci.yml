@@ -15,8 +15,7 @@ test:
     changes:
       - Dockerfile
       - Dockerfile-test
-      - getto-hangar-build.sh
-      - getto-hangar-push.sh
+      - getto-hangar-*.sh
 
   variables:
     DOCKER_HOST: tcp://docker:2375/
