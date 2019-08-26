@@ -4,7 +4,7 @@ ENV DOCKLE_VERSION 0.1.16
 ENV TRIVY_VERSION 0.1.6
 
 RUN set -x && \
-  apk -Uuv add bash git curl tar sed grep && \
+  apk --no-cache -Uuv add bash git curl tar sed grep && \
   mkdir -p /opt && \
   curl -L -o /opt/dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.tar.gz && \
   tar zxvf /opt/dockle.tar.gz -C /opt && \
