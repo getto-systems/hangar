@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version : 0.3.0
+
+- fix: ignore tag : See merge request getto-systems-labo/hangar!9
+- fix: gitlab-ci : See merge request getto-systems-labo/hangar!8
+- fix: update_version : See merge request getto-systems-labo/hangar!7
+- fix: update_version mode : See merge request getto-systems-labo/hangar!6
+
+
 ## Version : 0.2.0
 
 - fix: push_latest : See merge request getto-systems-labo/hangar!5
