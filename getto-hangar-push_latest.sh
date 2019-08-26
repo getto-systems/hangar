@@ -17,13 +17,13 @@ echo "target: $image:$tag"
 docker pull $image:$tag > /dev/null
 if [ $? == 0 ]; then
   echo "signed image already pushed"
-  return
+  exit 0
 fi
 
 docker pull --disable-content-trust $image:$tag > /dev/null
 if [ $? != 0 ]; then
   echo "build not finished"
-  return
+  exit 0
 fi
 
 export HOME=$(pwd)
