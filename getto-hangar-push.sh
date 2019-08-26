@@ -31,7 +31,7 @@ fi
 git config user.email "$GIT_USER_EMAIL"
 git config user.name "$GIT_USER_NAME"
 
-sed -i -e "s|image: getto/hangar:$hangar_id-.*|image: $image|" .gitlab-ci.yml
+sed -i -e "s|image: getto/hangar:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
 git add .gitlab-ci.yml
 git commit -m "update: image"
 
