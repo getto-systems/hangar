@@ -4,6 +4,7 @@ stages:
   - test
   - check
   - release
+  - push_latest
   - notify
 
 test:
@@ -67,6 +68,25 @@ update:
 
   script:
     - ./bin/update_version.sh
+
+push_latest:
+  stage: push_latest
+  only:
+    refs:
+      - triggers
+    variables:
+      - $PUSH_LATEST
+
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CONTENT_TRUST: 1
+  services:
+    - docker:dind
+
+  script:
+    - getto-hangar-push_latest.sh getto/hangar
+    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/labo-container -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release:
   stage: release
