@@ -68,33 +68,6 @@ update:
   script:
     - ./bin/update_version.sh
 
-push_image:
-  stage: build
-  only:
-    refs:
-      - master@getto-psycher/slack
-    changes:
-      - Dockerfile
-      - Dockerfile-test
-      - getto-hangar-build.sh
-      - getto-hangar-push.sh
-  except:
-    refs:
-      - schedules
-      - triggers
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-    GIT_USER_NAME: getto
-    GIT_USER_EMAIL: admin@getto.systems
-  services:
-    - docker:dind
-
-  script:
-    - getto-hangar-push.sh
-
 release:
   stage: release
   only:
