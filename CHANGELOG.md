@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.1.1
+
+- fix: gitlab-ci : See merge request getto-systems-labo/hangar!4
+
+
 ## Version : 0.1.0
 
 - add: push_latest script : See merge request getto-systems-labo/hangar!3
