@@ -85,7 +85,7 @@ push_latest:
 
   script:
     - getto-hangar-push_latest.sh getto/hangar
-    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/labo-container -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release:
   stage: release
