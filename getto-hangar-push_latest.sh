@@ -12,6 +12,11 @@ if [ -z "$tag" ]; then
   exit 1
 fi
 
+if [ -z "$(echo "$tag" | grep '^[0-9.-]\+$')" ]; then
+  echo "ignore tag: $tag"
+  exit 0
+fi
+
 echo "target: $image:$tag"
 
 docker pull $image:$tag > /dev/null
