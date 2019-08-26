@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 0.2.0
+
+- fix: push_latest : See merge request getto-systems-labo/hangar!5
+
+
 ## Version : 0.1.3
 
 
