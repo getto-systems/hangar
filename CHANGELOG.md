@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 1.0.0
+
+- production ready! : See merge request getto-systems-base/labo/hangar!12
+- fix: push_tags : See merge request getto-systems-base/labo/hangar!11
+
+
 ## Version : 0.4.0
 
 - fix: push : See merge request getto-systems-labo/hangar!10
