@@ -2,6 +2,8 @@
 
 docker image repository : using by getto projects
 
+status : production ready
+
 
 ###### Table of Contents
 
