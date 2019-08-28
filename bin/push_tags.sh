@@ -1,7 +1,15 @@
 #!/bin/bash
 
-git remote add super https://getto-systems:$GITLAB_ACCESS_TOKEN@gitlab.com/getto-systems-base/labo/hangar.git
-git remote add maint https://getto-systems:$GITHUB_ACCESS_TOKEN@github.com/getto-systems/hangar.git
 git tag $(cat .release-version)
-git push super HEAD:master --tags
-git push maint HEAD:master --tags
+
+super=$(git remote -v | grep "origin.*fetch" | sed 's|.*https|https|' | sed "s|gitlab-ci-token:.*@|$GITLAB_USER:$GITLAB_ACCESS_TOKEN@|" | sed "s| .*||")
+git push $super HEAD:master --tags
+
+if [ $? != 0 ]; then
+  exit 1
+fi
+
+if [ -f .git-maint-repo ]; then
+  maint=$(cat .git-maint-repo | sed "s|https://|https://$GITHUB_USER:$GITHUB_ACCESS_TOKEN@|")
+  git push $maint HEAD:master --tags
+fi
