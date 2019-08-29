@@ -29,7 +29,7 @@ test:
       - .cache
 
   script:
-    - getto-hangar-build.sh
+    - ./getto-hangar-build.sh
 
 check:
   stage: check
@@ -43,6 +43,7 @@ check:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_CONTENT_TRUST: 1
+    image: getto/hangar:latest
   services:
     - docker:dind
 
@@ -51,7 +52,7 @@ check:
       - .cache
 
   script:
-    - getto-hangar-build.sh
+    - ./getto-hangar-test.sh
 
 update:
   stage: check
