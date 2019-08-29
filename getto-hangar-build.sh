@@ -23,6 +23,12 @@ if [ -f Dockerfile-test ]; then
   fi
 fi
 
+if [ -f .getto-hangar-trivy-opts ]; then
+  trivy_opts="$(cat .getto-hangar-trivy-opts)"
+else
+  trivy_opts=
+fi
+
 dockle --exit-code 1 $image && \
-trivy --exit-code 1 --quiet --ignore-unfixed --auto-refresh $image && \
+trivy --exit-code 1 --quiet --auto-refresh $trivy_opts $image && \
 :
