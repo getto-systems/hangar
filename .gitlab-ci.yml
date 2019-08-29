@@ -29,7 +29,7 @@ test:
       - .cache
 
   script:
-    - getto-hangar-build.sh
+    - ./getto-hangar-build.sh
 
 check:
   stage: check
@@ -51,7 +51,7 @@ check:
       - .cache
 
   script:
-    - getto-hangar-build.sh
+    - ./getto-hangar-test.sh
 
 update:
   stage: check
