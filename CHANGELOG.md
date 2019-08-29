@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version : 1.2.0
+
+- fix: dockleignore : See merge request getto-systems-base/projects/hangar!20
+- fix: test-image.sh : See merge request getto-systems-base/projects/hangar!19
+- fix: test : See merge request getto-systems-base/projects/hangar!18
+- fix: test-image.sh : See merge request getto-systems-base/projects/hangar!17
+- fix: getto-hangar-test : See merge request getto-systems-base/projects/hangar!16
+
+
 ## Version : 1.1.0
 
 - fix: build : See merge request getto-systems-base/projects/hangar!15
