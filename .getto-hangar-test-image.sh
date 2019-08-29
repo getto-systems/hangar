@@ -1,1 +1,1 @@
-head -1 $APP_ROOT/.gitlab-ci.yml | cut -d' ' -f2
+head -1 .gitlab-ci.yml | cut -d' ' -f2
