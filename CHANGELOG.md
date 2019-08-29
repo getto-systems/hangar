@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 1.1.0
+
+- fix: build : See merge request getto-systems-base/projects/hangar!15
+
+
 ## Version : 1.0.4
 
 - fix: push_tags : See merge request getto-systems-base/labo/hangar!14
