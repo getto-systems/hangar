@@ -5,8 +5,14 @@ set -x
 export HOME=$(pwd)
 
 if [ -z "$image" ]; then
-  echo "image not detected"
-  exit 1
+  if [ -f .getto-hangar-test-image.sh ]; then
+    image=$(.getto-hangar-test-image.sh)
+  fi
+
+  if [ -z "$image" ]; then
+    echo "image not detected"
+    exit 1
+  fi
 fi
 
 if [ -f Dockerfile-test ]; then
