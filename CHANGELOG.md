@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 1.3.0
+
+- fix: push_tags : See merge request getto-systems-base/projects/hangar!22
+- fix: update_version : See merge request getto-systems-base/projects/hangar!21
+
+
 ## Version : 1.2.0
 
 - fix: dockleignore : See merge request getto-systems-base/projects/hangar!20
