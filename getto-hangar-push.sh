@@ -35,4 +35,4 @@ sed -i -e "s|image: getto/hangar:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
 git add .gitlab-ci.yml
 git commit -m "update: image"
 
-./bin/push_tags.sh
+curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
