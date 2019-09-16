@@ -6,7 +6,9 @@ ENV TRIVY_VERSION 0.1.6
 RUN set -x && \
   apk --no-cache -Uuv add bash git curl tar sed grep && \
   : "fix vulnerabilities" && \
-  apk --no-cache -Uuv add openssl && \
+  apk --no-cache -Uuv add \
+    openssl \
+  && \
   : "install dockle" && \
   mkdir -p /opt && \
   curl -L -o /opt/dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.tar.gz && \
