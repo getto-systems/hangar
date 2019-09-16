@@ -14,8 +14,8 @@ RUN set -x && \
     grep \
   && \
   : "fix vulnerabilities" && \
-  apk --no-cache --upgrade add \
-    openssl \
+  apk --no-cache -Uuv add \
+    openssl=1.1.1d-r1 \
   && \
   : "install dockle" && \
   mkdir -p /opt && \
