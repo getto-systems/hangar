@@ -4,9 +4,17 @@ ENV DOCKLE_VERSION 0.2.0
 ENV TRIVY_VERSION 0.1.6
 
 RUN set -x && \
-  apk --no-cache -Uuv add bash git curl tar sed grep && \
-  : "fix vulnerabilities" && \
+  apk update && \
   apk --no-cache -Uuv add \
+    bash \
+    git \
+    curl \
+    tar \
+    sed \
+    grep \
+  && \
+  : "fix vulnerabilities" && \
+  apk --no-cache --upgrade add \
     openssl \
   && \
   : "install dockle" && \
