@@ -10,6 +10,7 @@ RUN set -x && \
     ca-certificates \
     curl \
     git \
+  && \
   : "to fix vulnerabilities, update packages : 2019-09-24" && \
   : apt-get install -y --no-install-recommends \
     openssl \
