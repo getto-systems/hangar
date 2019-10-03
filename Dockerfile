@@ -28,6 +28,9 @@ RUN set -x && \
   mv /opt/trivy /usr/bin && \
   : "remove downloads" && \
   rm -rf /opt && \
+  : "cleanup apt caches" && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
   :
 
 COPY getto-hangar-*.sh /usr/local/bin/
