@@ -1,22 +1,21 @@
-FROM docker:stable
+FROM debian:buster
 
 ENV DOCKLE_VERSION 0.2.0
 ENV TRIVY_VERSION 0.1.6
 
 RUN set -x && \
-  apk update && \
-  apk --no-cache -Uuv add \
-    bash \
-    git \
+  apt-get update && \
+  apt-get install -y apt-utils && \
+  apt-get install -y \
+    ca-certificates \
     curl \
-    tar \
-    sed \
-    grep \
+    git \
+  : "to fix vulnerabilities, update packages : 2019-09-24" && \
+  : apt-get install -y --no-install-recommends \
+    openssl \
   && \
-  : "fix vulnerabilities" && \
-  apk --no-cache -Uuv add \
-    openssl=1.1.1d-r1 \
-  && \
+  : "install docker" && \
+  curl -sSL https://get.docker.com | sh && \
   : "install dockle" && \
   mkdir -p /opt && \
   curl -L -o /opt/dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${DOCKLE_VERSION}/dockle_${DOCKLE_VERSION}_Linux-64bit.tar.gz && \
