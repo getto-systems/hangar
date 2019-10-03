@@ -12,8 +12,11 @@ RUN set -x && \
     git \
   && \
   : "to fix vulnerabilities, update packages : 2019-09-24" && \
-  : apt-get install -y --no-install-recommends \
-    openssl \
+  apt-get install -y --no-install-recommends \
+    e2fsprogs \
+    libcom-err2 \
+    libext2fs2 \
+    libss2 \
   && \
   : "install docker" && \
   curl -sSL https://get.docker.com | sh && \
