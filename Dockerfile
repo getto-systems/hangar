@@ -1,6 +1,6 @@
 FROM debian:buster
 
-ENV DOCKLE_VERSION 0.2.0
+ENV DOCKLE_VERSION 0.2.1
 ENV TRIVY_VERSION 0.1.7
 
 RUN set -x && \
