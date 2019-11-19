@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.4.0
+
+- fix: vulnerabilities : See merge request getto-systems-base/projects/hangar!24
+
+
 ## Version : 2.3.0
 
 
