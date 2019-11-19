@@ -11,8 +11,8 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2019-09-24" && \
-  apt-get install -y --no-install-recommends \
+  : "to fix vulnerabilities, update packages : 2019-11-19" && \
+  : apt-get install -y --no-install-recommends \
     e2fsprogs \
     libcom-err2 \
     libext2fs2 \
