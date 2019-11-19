@@ -11,12 +11,14 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2019-09-24" && \
+  : "to fix vulnerabilities, update packages : 2019-11-19" && \
   apt-get install -y --no-install-recommends \
-    e2fsprogs \
-    libcom-err2 \
-    libext2fs2 \
-    libss2 \
+    libncursesw6 \
+    libsystemd0 \
+    libtinfo6 \
+    libudev1 \
+    ncurses-base \
+    ncurses-bin \
   && \
   : "install docker" && \
   curl -sSL https://get.docker.com | sh && \
