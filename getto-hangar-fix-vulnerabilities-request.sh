@@ -21,7 +21,15 @@ sed -i \
   -e '/: "'"$FIX_VULNERABILITIES_MARKER"'/{n;s|[^:] apt-get|  : apt-get|}' \
   Dockerfile
 
+git config user.email "$GIT_USER_EMAIL"
+git config user.name "$GIT_USER_NAME"
+
+git checkout -b fix-vulnerabilities-$(date +%Y%m%d%H%M%S%N)
+
+git add Dockerfile
+git commit -m "fix: vulnerabilities"
+
 export GIT_POST_REMOTE_FORK_NAME=origin
 export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-git post "fix: vulnerabilities : $(date --iso-8601=ns)"
+git post "fix: vulnerabilities"
