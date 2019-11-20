@@ -4,11 +4,10 @@
 ./bin/update_trivy.sh
 
 if [ "$(git status -s Dockerfile)" ]; then
-  git clone https://github.com/getto-systems/git-pub.git
   git clone https://github.com/getto-systems/git-post.git
 
   cwd=$(pwd)
-  export PATH=$PATH:$cwd/git-pub/bin:$cwd/git-post/bin
+  export PATH=$PATH:$cwd/git-post/bin
 
   git config user.email "$GIT_USER_EMAIL"
   git config user.name "$GIT_USER_NAME"
@@ -27,5 +26,5 @@ if [ "$(git status -s Dockerfile)" ]; then
   export GIT_POST_REMOTE_FORK_NAME=origin
   export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-  git post "$message"
+  git post "$message" master
 fi

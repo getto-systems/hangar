@@ -2,11 +2,10 @@
 
 set -x
 
-git clone https://github.com/getto-systems/git-pub.git
 git clone https://github.com/getto-systems/git-post.git
 
 cwd=$(pwd)
-export PATH=$PATH:$cwd/git-pub/bin:$cwd/git-post/bin
+export PATH=$PATH:$cwd/git-post/bin
 
 if [ -z "$FIX_VULNERABILITIES_MARKER" ]; then
   FIX_VULNERABILITIES_MARKER="to fix vulnerabilities, update packages"
@@ -36,4 +35,4 @@ git push $super $branch:$branch
 export GIT_POST_REMOTE_FORK_NAME=origin
 export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-git post "$message"
+git post "$message" master
