@@ -3,9 +3,11 @@ image: getto/hangar:latest
 stages:
   - test
   - check
+  - update
   - release
   - push_latest
   - notify
+  - request
 
 test:
   stage: test
@@ -53,8 +55,22 @@ check:
   script:
     - ./getto-hangar-test.sh
 
+check_failure:
+  stage: request
+  only:
+    refs:
+      - schedules
+    variables:
+      - $CHECK
+  when: on_failure
+
+  image: buildpack-deps:disco-scm
+
+  script:
+    - ./getto-hangar-fix-vulnerabilities-request.sh
+
 update:
-  stage: check
+  stage: update
   only:
     refs:
       - schedules
