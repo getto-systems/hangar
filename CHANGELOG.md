@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Version : 2.6.0
+
+- fix: vulnerabilities : See merge request getto-systems-base/projects/hangar!37
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!36
+- fix: push branch : See merge request getto-systems-base/projects/hangar!34
+- fix: push branch : See merge request getto-systems-base/projects/hangar!33
+- fix: fix-vulnerabilities-request : See merge request getto-systems-base/projects/hangar!31
+- fix: fix-vulnerabilities-request : See merge request getto-systems-base/projects/hangar!30
+
+
 ## Version : 2.5.0
 
 - add: fix-vulnerabilities-request : See merge request getto-systems-base/projects/hangar!29
