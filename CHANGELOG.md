@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.7.0
+
+- fix: git post : See merge request getto-systems-base/projects/hangar!39
+- fix: update version : See merge request getto-systems-base/projects/hangar!38
+
+
 ## Version : 2.6.0
 
 - fix: vulnerabilities : See merge request getto-systems-base/projects/hangar!37
