@@ -24,4 +24,5 @@ sed -i \
 export GIT_POST_REMOTE_FORK_NAME=origin
 export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-git post "fix: vulnerabilities : $(date --iso-8601=ns)"
+git add Dockerfile
+git create-work-branch "fix: vulnerabilities : $(date --iso-8601=ns)"
