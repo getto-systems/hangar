@@ -2,8 +2,6 @@
 
 set -x
 
-git remote -v
-
 git clone https://github.com/getto-systems/git-pub.git
 git clone https://github.com/getto-systems/git-post.git
 
@@ -28,7 +26,9 @@ branch=fix-vulnerabilities-$(date +%Y%m%d%H%M%S%N)
 git checkout -b $branch
 
 git add Dockerfile
-git commit -m "fix: vulnerabilities"
+
+message="fix: vulnerabilities"
+git commit -m "$message"
 
 super=$(git remote -v | grep "origin.*fetch" | sed 's|.*https|https|' | sed "s|gitlab-ci-token:.*@|$GITLAB_USER:$GITLAB_ACCESS_TOKEN@|" | sed "s| .*||")
 git push $super $branch:$branch
@@ -36,4 +36,4 @@ git push $super $branch:$branch
 export GIT_POST_REMOTE_FORK_NAME=origin
 export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-git post "fix: vulnerabilities"
+git post "$message"
