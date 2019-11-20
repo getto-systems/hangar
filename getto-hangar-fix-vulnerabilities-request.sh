@@ -2,6 +2,8 @@
 
 set -x
 
+git remote -v
+
 git clone https://github.com/getto-systems/git-pub.git
 git clone https://github.com/getto-systems/git-post.git
 
@@ -22,4 +24,4 @@ sed -i \
 export GIT_POST_REMOTE_FORK_NAME=origin
 export GITLAB_REMOVE_SOURCE_BRANCH=true
 
-git post "fix: vulnerabilities"
+git post "fix: vulnerabilities : $(date --iso-8601=ns)"
