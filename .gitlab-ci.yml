@@ -75,10 +75,6 @@ update:
     variables:
       - $UPDATE
 
-  variables:
-    GIT_USER_NAME: getto
-    GIT_USER_EMAIL: admin@getto.systems
-
   script:
     - ./bin/update_version.sh
 
@@ -108,10 +104,6 @@ release:
       - triggers
     variables:
       - $RELEASE
-
-  variables:
-    GIT_USER_NAME: getto
-    GIT_USER_EMAIL: admin@getto.systems
 
   script:
     - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/version_dump.sh | bash
