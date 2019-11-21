@@ -8,6 +8,7 @@ stages:
   - push_latest
   - notify
   - request
+  - push_tags
 
 test:
   stage: test
@@ -75,6 +76,8 @@ update:
     variables:
       - $UPDATE
 
+  before_script:
+    - git clone https://github.com/getto-systems/version-dump
   script:
     - ./bin/update_version.sh
 
@@ -93,9 +96,11 @@ push_latest:
   services:
     - docker:dind
 
+  before_script:
+    - git clone https://github.com/getto-systems/psycher-getto
   script:
     - getto-hangar-push_latest.sh getto/hangar
-    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - ./psycher-getto/bin/notify-push_latest.sh -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release:
   stage: release
@@ -105,9 +110,11 @@ release:
     variables:
       - $RELEASE
 
+  before_script:
+    - git clone https://github.com/getto-systems/version-dump
   script:
-    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/version_dump.sh | bash
-    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
+    - ./version-dump/bin/version_dump.sh
+    - ./version-dump/bin/version_dump_request_message.sh | ./version-dump/bin/request.sh
 
 release_success:
   stage: notify
@@ -120,8 +127,10 @@ release_success:
 
   image: buildpack-deps:disco-curl
 
+  before_script:
+    - git clone https://github.com/getto-systems/psycher-getto
   script:
-    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-deploy.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - ./psycher-getto/bin/notify-deploy.sh -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release_failure:
   stage: notify
@@ -134,5 +143,26 @@ release_failure:
 
   image: buildpack-deps:disco-curl
 
+  before_script:
+    - git clone https://github.com/getto-systems/psycher-getto
   script:
-    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-deploy.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true failure
+    - ./psycher-getto/bin/notify-deploy.sh -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true failure
+
+push_tags:
+  stage: push_tags
+  only:
+    refs:
+      - master@getto-systems-base/projects/hangar
+    changes:
+      - .release-version
+  except:
+    refs:
+      - schedules
+      - triggers
+
+  image: buildpack-deps:disco-scm
+
+  before_script:
+    - git clone https://github.com/getto-systems/version-dump
+  script:
+    - ./version-dump/bin/push_tags.sh
