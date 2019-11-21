@@ -1,17 +1,16 @@
 image: getto/hangar:latest
 
 stages:
+  - build
   - test
-  - check
   - update
   - release
   - push_latest
   - notify
-  - request
   - push_tags
 
-test:
-  stage: test
+build:
+  stage: build
   only:
     refs:
       - merge_requests
@@ -32,8 +31,8 @@ test:
   script:
     - ./getto-hangar-build.sh
 
-check:
-  stage: check
+test:
+  stage: test
   only:
     refs:
       - schedules
@@ -55,7 +54,7 @@ check:
     - ./getto-hangar-test.sh
 
 check_failure:
-  stage: request
+  stage: test
   only:
     refs:
       - schedules
@@ -96,11 +95,9 @@ push_latest:
   services:
     - docker:dind
 
-  before_script:
-    - git clone https://github.com/getto-systems/psycher-getto
   script:
     - getto-hangar-push_latest.sh getto/hangar
-    - ./psycher-getto/bin/notify-push_latest.sh -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release:
   stage: release
@@ -127,10 +124,8 @@ release_success:
 
   image: buildpack-deps:disco-curl
 
-  before_script:
-    - git clone https://github.com/getto-systems/psycher-getto
   script:
-    - ./psycher-getto/bin/notify-deploy.sh -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-deploy.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
 
 release_failure:
   stage: notify
@@ -143,10 +138,8 @@ release_failure:
 
   image: buildpack-deps:disco-curl
 
-  before_script:
-    - git clone https://github.com/getto-systems/psycher-getto
   script:
-    - ./psycher-getto/bin/notify-deploy.sh -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true failure
+    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-deploy.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true failure
 
 push_tags:
   stage: push_tags
@@ -162,7 +155,5 @@ push_tags:
 
   image: buildpack-deps:disco-scm
 
-  before_script:
-    - git clone https://github.com/getto-systems/version-dump
   script:
-    - ./version-dump/bin/push_tags.sh
+    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
