@@ -28,6 +28,11 @@ if [ $result != 0 ]; then
 fi
 
 sed -i -e "s|image: getto/hangar:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
-git add .gitlab-ci.yml && \
+echo $image > .getto-hangar-image
+
+git add \
+  .gitlab-ci.yml \
+  .getto-hangar-image \
+&& \
 git commit -m "update: image" && \
 :
