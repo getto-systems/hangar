@@ -104,7 +104,7 @@ version_dump:
     - curl https://raw.githubusercontent.com/getto-systems/git-post/master/bin/setup.sh | bash -s -- /opt/getto-systems
     - export PATH=$PATH:/opt/getto-systems/git-post/bin
   script:
-    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/version_dump.sh
+    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/version_dump.sh | bash
     - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/request.sh | bash -s -- ./.release-version-message.sh
 
 version_dump_success:
