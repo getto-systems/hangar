@@ -5,8 +5,12 @@ set -x
 export HOME=$(pwd)
 
 if [ -z "$image" ]; then
-  if [ -x .getto-hangar-test-image.sh ]; then
-    image=$(./.getto-hangar-test-image.sh)
+  if [ -f .getto-hangar-image ]; then
+    image=$(cat .getto-hangar-image)
+  else
+    if [ -x .getto-hangar-test-image.sh ]; then
+      image=$(./.getto-hangar-test-image.sh)
+    fi
   fi
 
   if [ -z "$image" ]; then
