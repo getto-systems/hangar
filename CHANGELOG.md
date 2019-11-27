@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.9.0
+
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!46
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!44
+
+
 ## Version : 2.8.1
 
 - fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!42
