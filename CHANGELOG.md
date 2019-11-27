@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.12.0
+
+- fix: test : See merge request getto-systems-base/projects/hangar!52
+
+
 ## Version : 2.11.0
 
 - fix: push : See merge request getto-systems-base/projects/hangar!50
