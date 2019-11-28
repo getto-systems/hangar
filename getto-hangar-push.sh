@@ -2,8 +2,9 @@
 
 export HOME=$(pwd)
 
-hangar_id=$(head -1 .gitlab-ci.yml | cut -d' ' -f2 | sed 's/.*://' | sed 's/-.*//')
-image=getto/hangar:$hangar_id-$(date +%Y%m%d%H%M%S)
+hangar_image=getto/hangar
+hangar_id=$(.getto-hangar-image | sed 's/.*://' | sed 's/-.*//')
+image=$hangar_image:$hangar_id-$(date +%Y%m%d%H%M%S)
 
 key_root=$HOME/.docker/trust/private
 
@@ -27,7 +28,7 @@ if [ $result != 0 ]; then
   exit 1
 fi
 
-sed -i -e "s|image: getto/hangar:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
+sed -i -e "s|image: $hangar_image:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
 echo $image > .getto-hangar-image
 
 git add \
