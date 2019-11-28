@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.13.0
+
+- fix: push_latest : See merge request getto-systems-base/projects/hangar!55
+- fix: set-window-title : See merge request getto-systems-base/projects/hangar!54
+
+
 ## Version : 2.12.0
 
 - fix: test : See merge request getto-systems-base/projects/hangar!52
