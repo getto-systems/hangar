@@ -148,12 +148,9 @@ release:
       - triggers
       - schedules
 
-  before_script:
-    - ./bin/restore.sh
   script:
-    - npm test
     - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
-    - ./bin/deploy.sh
+    - ./getto-hangar-push_latest.sh getto/hangar
 
 release_success:
   stage: release_notify
