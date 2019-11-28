@@ -147,19 +147,6 @@ release:
       - schedules
       - triggers
 
-  image: buildpack-deps:disco-scm
-
-  script:
-    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
-
-push_latest:
-  stage: push_latest
-  only:
-    refs:
-      - triggers
-    variables:
-      - $PUSH_LATEST
-
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
@@ -168,5 +155,5 @@ push_latest:
     - docker:dind
 
   script:
-    - getto-hangar-push_latest.sh getto/hangar
-    - curl https://raw.githubusercontent.com/getto-systems/psycher-getto/master/bin/notify-push_latest.sh | bash -s -- -r getto/hangar -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - curl https://raw.githubusercontent.com/getto-systems/version-dump/master/bin/push_tags.sh | bash
+    - ./getto-hangar-push_latest.sh getto/hangar
