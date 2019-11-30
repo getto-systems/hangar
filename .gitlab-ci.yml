@@ -44,7 +44,7 @@ image_update:
   before_script:
     - git config user.email admin@getto.systems
     - git config user.name getto
-    - curl https://raw.githubusercontent.com/getto-systems/git-post/master/bin/setup.sh | bash -s -- /opt/getto-systems
+    - curl https://raw.githubusercontent.com/getto-systems/git-post/master/scripts/setup.sh | bash -s -- /opt/getto-systems
     - export PATH=$PATH:/opt/getto-systems/git-post/bin
   script:
     - ./bin/update_version.sh
