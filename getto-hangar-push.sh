@@ -3,7 +3,7 @@
 export HOME=$(pwd)
 
 hangar_image=getto/hangar
-hangar_id=$(.getto-hangar-image | sed 's/.*://' | sed 's/-.*//')
+hangar_id=$(cat .getto-hangar-image | sed 's/.*://' | sed 's/-.*//')
 image=$hangar_image:$hangar_id-$(date +%Y%m%d%H%M%S)
 
 key_root=$HOME/.docker/trust/private
