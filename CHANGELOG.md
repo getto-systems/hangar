@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version : 2.15.0
+
+- fix: Dockerfile : See merge request getto-systems-base/projects/hangar!72
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!71
+- fix: vulnerabilities : 2019-12-23T01:10:01,169316924 00:00 : See merge request getto-systems-base/projects/hangar!69
+
+
 ## Version : 2.14.1
 
 - fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!66
