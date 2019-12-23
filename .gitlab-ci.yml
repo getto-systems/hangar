@@ -6,7 +6,6 @@ stages:
   - image_update
   - image_test
   - image_fix_vulnerabilities
-  - image_push
   - bump_version
   - release
   - release_notify
@@ -89,34 +88,6 @@ image_fix_vulnerabilities:
   script:
     - ./getto-hangar-fix-vulnerabilities.sh
     - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
-
-image_push:
-  stage: image_push
-  only:
-    refs:
-      - master@getto-systems-base/projects/hangar
-    changes:
-      - Dockerfile
-  except:
-    refs:
-      - schedules
-      - triggers
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  before_script:
-    - git config user.email admin@getto.systems
-    - git config user.name getto
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
-    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
-  services:
-    - docker:dind
-
-  script:
-    - ./getto-hangar-push_latest.sh getto/hangar
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-image-message.sh
 
 bump_version:
   stage: bump_version
