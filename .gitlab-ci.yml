@@ -61,6 +61,7 @@ image_test:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_CONTENT_TRUST: 1
+    image: getto/hangar
   services:
     - docker:dind
 
@@ -114,7 +115,7 @@ image_push:
     - docker:dind
 
   script:
-    - ./getto-hangar-push.sh
+    - ./getto-hangar-push_latest.sh getto/hangar
     - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-image-message.sh
 
 bump_version:
