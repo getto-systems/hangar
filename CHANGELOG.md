@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.15.1
+
+- fix: readme : See merge request getto-systems-base/projects/hangar!74
+
+
 ## Version : 2.15.0
 
 - fix: Dockerfile : See merge request getto-systems-base/projects/hangar!72
