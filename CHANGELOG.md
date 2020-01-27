@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.16.0
+
+- update tools: 2020-01-27T11:01:30,491672583 00:00 : See merge request getto-systems-base/projects/hangar!78
+
+
 ## Version : 2.15.2
 
 - fix: scripts directory path : See merge request getto-systems-base/projects/hangar!76
