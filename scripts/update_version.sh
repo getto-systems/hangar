@@ -1,7 +1,7 @@
 #!/bin/bash
 
-./bin/update_dockle.sh
-./bin/update_trivy.sh
+./scripts/update_dockle.sh
+./scripts/update_trivy.sh
 
 if [ "$(git status -s Dockerfile)" ]; then
   git add Dockerfile
