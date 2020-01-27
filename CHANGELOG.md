@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.15.2
+
+- fix: scripts directory path : See merge request getto-systems-base/projects/hangar!76
+
+
 ## Version : 2.15.1
 
 - fix: readme : See merge request getto-systems-base/projects/hangar!74
