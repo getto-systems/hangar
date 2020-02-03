@@ -12,13 +12,8 @@ RUN set -x && \
     git \
   && \
   : "to fix vulnerabilities, update packages : 2020-02-03" && \
-  : apt-get install -y --no-install-recommends \
-    libncursesw6 \
-    libsystemd0 \
-    libtinfo6 \
-    libudev1 \
-    ncurses-base \
-    ncurses-bin \
+  apt-get install -y --no-install-recommends \
+    libidn2-0 \
   && \
   : "install docker" && \
   curl -sSL https://get.docker.com | sh && \
