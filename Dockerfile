@@ -11,7 +11,7 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2019-12-23 20:18" && \
+  : "to fix vulnerabilities, update packages : 2020-02-03" && \
   : apt-get install -y --no-install-recommends \
     libncursesw6 \
     libsystemd0 \
