@@ -1,7 +1,7 @@
 FROM debian:buster
 
 ENV DOCKLE_VERSION 0.2.4
-ENV TRIVY_VERSION 0.4.3
+ENV TRIVY_VERSION 0.4.4
 
 RUN set -x && \
   apt-get update && \
@@ -12,7 +12,11 @@ RUN set -x && \
     git \
   && \
   : "to fix vulnerabilities, update packages : 2020-02-17" && \
-  : apt-get install -y --no-install-recommends \
+  apt-get install -y --no-install-recommends \
+    e2fsprogs \
+    libcom-err2 \
+    libext2fs2 \
+    libss2 \
     libidn2-0 \
   && \
   : "install docker" && \
