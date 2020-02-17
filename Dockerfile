@@ -17,6 +17,7 @@ RUN set -x && \
     libcom-err2 \
     libext2fs2 \
     libss2 \
+    libidn2-0 \
   && \
   : "install docker" && \
   curl -sSL https://get.docker.com | sh && \
