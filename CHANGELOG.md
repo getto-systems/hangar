@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Version : 2.18.0
+
+- fix: vulnerabilities : 2020-02-17T01:08:44,862158952 00:00 : See merge request getto-systems-base/projects/hangar!84
+- fix: conflict : See merge request getto-systems-base/projects/hangar!88
+
+- fix: conflict : See merge request getto-systems-base/projects/hangar!87
+- update tools: 2020-02-17T01:06:01,902293633 00:00 : See merge request getto-systems-base/projects/hangar!83
+- fix: vulnerabilities : See merge request getto-systems-base/projects/hangar!86
+
+
 ## Version : 2.17.0
 
 - fix: vulnerabilities : 2020-02-03T01:08:23,040902332 00:00 : See merge request getto-systems-base/projects/hangar!80
