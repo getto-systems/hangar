@@ -11,8 +11,8 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2020-02-03" && \
-  apt-get install -y --no-install-recommends \
+  : "to fix vulnerabilities, update packages : 2020-02-17" && \
+  : apt-get install -y --no-install-recommends \
     libidn2-0 \
   && \
   : "install docker" && \
