@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.19.0
+
+- add: build without test script : See merge request getto-systems-base/projects/hangar!90
+
+
+
 ## Version : 2.18.0
 
 - fix: vulnerabilities : 2020-02-17T01:08:44,862158952 00:00 : See merge request getto-systems-base/projects/hangar!84
