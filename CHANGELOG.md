@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.20.0
+
+- fix: trivy options : See merge request getto-systems-base/projects/hangar!92
+
+
+
 ## Version : 2.19.0
 
 - add: build without test script : See merge request getto-systems-base/projects/hangar!90
