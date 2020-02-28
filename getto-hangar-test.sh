@@ -37,5 +37,5 @@ else
 fi
 
 dockle --exit-code 1 $image && \
-trivy --exit-code 1 --quiet --auto-refresh $trivy_opts $image && \
+trivy --exit-code 1 --quiet --light --no-progress $trivy_opts $image && \
 :
