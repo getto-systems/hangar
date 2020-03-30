@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version : 2.21.0
+
+- add: skip dockle option : See merge request getto-systems-base/projects/hangar!96
+- update tools: 2020-03-30T01:05:58,968155195 00:00 : See merge request getto-systems-base/projects/hangar!95
+- update tools: 2020-03-09T01:06:00,165892273 00:00 : See merge request getto-systems-base/projects/hangar!94
+
+
 ## Version : 2.20.0
 
 - fix: trivy options : See merge request getto-systems-base/projects/hangar!92
