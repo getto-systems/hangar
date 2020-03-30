@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.22.0
+
+- remove: skip dockle option : See merge request getto-systems-base/projects/hangar!98
+
+
 ## Version : 2.21.0
 
 - add: skip dockle option : See merge request getto-systems-base/projects/hangar!96
