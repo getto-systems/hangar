@@ -36,11 +36,6 @@ else
   trivy_opts=
 fi
 
-if [ ! -f .getto-hangar-skip-dockle ]; then
-  dockle --exit-code 1 $image
-  if [ $? != 0 ]; then
-    exit 1
-  fi
-fi
-
-trivy --exit-code 1 --quiet --light --no-progress $trivy_opts $image
+dockle --exit-code 1 $image &&
+trivy --exit-code 1 --quiet --light --no-progress $trivy_opts $image &&
+:
