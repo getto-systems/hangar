@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.23.0
+
+- fix: vulnerabilities : 2020-04-06T01:09:51,314674910 00:00 : See merge request getto-systems-base/projects/hangar!100
+
+
 ## Version : 2.22.0
 
 - remove: skip dockle option : See merge request getto-systems-base/projects/hangar!98
