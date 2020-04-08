@@ -34,7 +34,8 @@ image_build:
 
 image_test:
   stage: image_build
-  needs: image_build
+  needs:
+    - image_build
 
   variables:
     DOCKER_HOST: tcp://docker:2375/
