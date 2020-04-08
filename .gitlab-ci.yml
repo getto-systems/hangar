@@ -35,6 +35,11 @@ image_build:
 
 image_test:
   stage: image_test
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - Dockerfile
   needs:
     - image_build
 
