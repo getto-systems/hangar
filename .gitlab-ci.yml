@@ -28,10 +28,12 @@ image_build:
 
   cache:
     paths:
-      - .cache
+      - .build
 
+  before_script:
+    - mkdir -p .build
   script:
-    - ./getto-hangar-build-to-file.sh .cache/image.tar
+    - ./getto-hangar-build-to-file.sh .build/image.tar
 
 image_test:
   stage: image_test
@@ -52,10 +54,10 @@ image_test:
 
   cache:
     paths:
-      - .cache
+      - .build
 
   script:
-    - ./getto-hangar-test-from-file.sh .cache/image.tar
+    - ./getto-hangar-test-from-file.sh .build/image.tar
 
 image_update:
   stage: image_update
@@ -88,10 +90,6 @@ image_scheduled_test:
     image: getto/hangar
   services:
     - docker:dind
-
-  cache:
-    paths:
-      - .cache
 
   script:
     - ./getto-hangar-test.sh
