@@ -3,6 +3,7 @@ image: getto/hangar:latest
 stages:
   - test
   - image_build
+  - image_test
   - image_update
   - image_scheduled_test
   - image_fix_vulnerabilities
@@ -33,7 +34,7 @@ image_build:
     - ./getto-hangar-build-to-file.sh .cache/image.tar
 
 image_test:
-  stage: image_build
+  stage: image_test
   needs:
     - image_build
 
