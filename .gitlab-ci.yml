@@ -3,8 +3,9 @@ image: getto/hangar:latest
 stages:
   - test
   - image_build
-  - image_update
   - image_test
+  - image_update
+  - image_scheduled_test
   - image_fix_vulnerabilities
   - bump_version
   - release
@@ -30,7 +31,31 @@ image_build:
       - .cache
 
   script:
-    - ./getto-hangar-build.sh
+    - ./getto-hangar-build-to-file.sh .cache/image.tar
+
+image_test:
+  stage: image_test
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - Dockerfile
+  needs:
+    - image_build
+
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CONTENT_TRUST: 1
+  services:
+    - docker:dind
+
+  cache:
+    paths:
+      - .cache
+
+  script:
+    - ./getto-hangar-test-from-file.sh .cache/image.tar
 
 image_update:
   stage: image_update
@@ -48,8 +73,8 @@ image_update:
   script:
     - ./scripts/update_version.sh
 
-image_test:
-  stage: image_test
+image_scheduled_test:
+  stage: image_scheduled_test
   only:
     refs:
       - schedules
