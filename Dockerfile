@@ -11,13 +11,9 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2020-04-06" && \
+  : "to fix vulnerabilities, update packages : 2020-04-08" && \
   : apt-get install -y --no-install-recommends \
-    e2fsprogs \
-    libcom-err2 \
-    libext2fs2 \
-    libss2 \
-    libidn2-0 \
+    libgnutls30 \
   && \
   : "install docker" && \
   curl -sSL https://get.docker.com | sh && \
