@@ -40,6 +40,8 @@ image_test:
       - merge_requests
     changes:
       - Dockerfile
+  needs:
+    - image_build
 
   variables:
     DOCKER_HOST: tcp://docker:2375/
