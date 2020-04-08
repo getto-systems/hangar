@@ -11,7 +11,7 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2020-04-06" && \
+  : "to fix vulnerabilities, update packages : 2020-04-08" && \
   : apt-get install -y --no-install-recommends \
     e2fsprogs \
     libcom-err2 \
