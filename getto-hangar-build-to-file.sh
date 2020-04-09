@@ -17,4 +17,4 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-docker save $image -o $output
+docker image save $image --output $output
