@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.26.0
+
+- fix: Dockefile : See merge request getto-systems-base/projects/hangar!109
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!108
+
+
 ## Version : 2.25.0
 
 - fix: vulnerabilities : See merge request getto-systems-base/projects/hangar!106
