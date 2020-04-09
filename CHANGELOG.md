@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.27.0
+
+- fix: test from file : See merge request getto-systems-base/projects/hangar!111
+
+
 ## Version : 2.26.0
 
 - fix: Dockefile : See merge request getto-systems-base/projects/hangar!109
