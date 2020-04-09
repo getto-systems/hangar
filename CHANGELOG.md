@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.28.0
+
+- fix: test from file : See merge request getto-systems-base/projects/hangar!113
+
+
+
 ## Version : 2.27.0
 
 - fix: test from file : See merge request getto-systems-base/projects/hangar!111
