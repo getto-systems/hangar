@@ -11,10 +11,10 @@ fi
 
 input=$1
 
-image=$(docker image load --input $input)
-image=${image#Loaded image: }
-
 if [ -f Dockerfile-test ]; then
+  image=$(docker image load --input $input)
+  image=${image#Loaded image: }
+
   sed -i -e "s|FROM.*|FROM $image|" Dockerfile-test
 
   docker build -t $image-test -f Dockerfile-test --disable-content-trust . && \
@@ -31,6 +31,6 @@ else
   trivy_opts=
 fi
 
-dockle --exit-code 1 $image &&
-trivy --exit-code 1 --quiet --light --no-progress $trivy_opts $image &&
+dockle --exit-code 1 --input $input &&
+trivy --exit-code 1 --quiet --light --no-progress $trivy_opts --input $input &&
 :
