@@ -12,9 +12,11 @@ fi
 input=$1
 
 if [ -f Dockerfile-test ]; then
+  image=$(docker image load --input $input)
+  image=${image#Loaded image: }
+
   sed -i -e "s|FROM.*|FROM $image|" Dockerfile-test
 
-  docker image load --input $input && \
   docker build -t $image-test -f Dockerfile-test --disable-content-trust . && \
   docker run --rm --disable-content-trust $image-test
 
