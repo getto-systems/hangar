@@ -1,7 +1,7 @@
 FROM debian:buster
 
 ENV DOCKLE_VERSION 0.2.4
-ENV TRIVY_VERSION 0.5.3
+ENV TRIVY_VERSION 0.5.4
 
 RUN set -x && \
   apt-get update && \
