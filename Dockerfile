@@ -11,8 +11,8 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2020-04-08 : 1" && \
-  apt-get install -y --no-install-recommends \
+  : "to fix vulnerabilities, update packages : 2020-04-20" && \
+  : apt-get install -y --no-install-recommends \
     libgnutls30 \
   && \
   : "install docker" && \
