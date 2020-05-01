@@ -117,7 +117,7 @@ image_fix_vulnerabilities:
     - export PATH=$PATH:./vendor/getto-systems/git-post/bin
   script:
     - ./getto-hangar-fix-vulnerabilities.sh
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
+    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
 
 bump_version:
   stage: bump_version
@@ -127,7 +127,7 @@ bump_version:
     variables:
       - $RELEASE
 
-  image: buildpack-deps:disco-scm
+  image: buildpack-deps:buster-scm
 
   before_script:
     - git config user.email admin@getto.systems
@@ -135,8 +135,8 @@ bump_version:
     - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
     - export PATH=$PATH:./vendor/getto-systems/git-post/bin
   script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/bump_version.sh | bash
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.bump-message.sh
+    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/bump_version.sh | bash
+    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.bump-message.sh
 
 release:
   stage: release
@@ -158,7 +158,7 @@ release:
     - docker:dind
 
   script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/push_tags.sh | bash
+    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/push_tags.sh | bash
     - ./getto-hangar-push_latest.sh getto/hangar
 
 release_success:
@@ -174,12 +174,14 @@ release_success:
       - schedules
   when: on_success
 
-  image: buildpack-deps:disco-curl
+  image: buildpack-deps:buster-curl
 
   before_script:
+    - export url=$GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true
     - export channel=$SLACK_CHANNEL
+    - export version=hangar:$(cat .release-version)
   script:
-    - curl https://trellis.getto.systems/psycher/getto/2.5.6/notify-release.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true success
+    - curl https://trellis.getto.systems/psycher/getto/2.6.0/notify-release-success.sh | bash -s -- $url $channel $version
 
 release_failure:
   stage: release_notify
@@ -194,9 +196,11 @@ release_failure:
       - schedules
   when: on_failure
 
-  image: buildpack-deps:disco-curl
+  image: buildpack-deps:buster-curl
 
   before_script:
+    - export url=$GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true
     - export channel=$SLACK_CHANNEL
+    - export version=hangar:$(cat .release-version)
   script:
-    - curl https://trellis.getto.systems/psycher/getto/2.5.6/notify-release.sh | bash -s -- -l $GETTO_PSYCHER_URL?$GETTO_PSYCHER_TOKEN=true failure
+    - curl https://trellis.getto.systems/psycher/getto/2.6.0/notify-release-failure.sh | bash -s -- $url $channel $version
