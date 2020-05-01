@@ -17,4 +17,15 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
+if [ -f Dockerfile-test ]; then
+  sed -i -e "s|FROM.*|FROM $image|" Dockerfile-test
+
+  docker build -t $image-test -f Dockerfile-test --disable-content-trust . && \
+  docker run --rm --disable-content-trust $image-test
+
+  if [ $? != 0 ]; then
+    exit 1
+  fi
+fi
+
 docker image save $image --output $output
