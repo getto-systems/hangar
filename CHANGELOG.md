@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version : 2.31.0
+
+- fix: vulnerabilities : 2020-04-20T01:07:27,370406159 00:00 : See merge request getto-systems-base/projects/hangar!121
+- update tools: 2020-04-20T01:05:49,230760180 00:00 : See merge request getto-systems-base/projects/hangar!120
+- update tools: 2020-04-13T01:05:59,405222322 00:00 : See merge request getto-systems-base/projects/hangar!119
+
+
 ## Version : 2.30.0
 
 - fix: test from file : See merge request getto-systems-base/projects/hangar!117

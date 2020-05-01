@@ -1,7 +1,7 @@
 FROM debian:buster
 
 ENV DOCKLE_VERSION 0.2.4
-ENV TRIVY_VERSION 0.5.3
+ENV TRIVY_VERSION 0.6.0
 
 RUN set -x && \
   apt-get update && \
@@ -11,8 +11,8 @@ RUN set -x && \
     curl \
     git \
   && \
-  : "to fix vulnerabilities, update packages : 2020-04-08 : 1" && \
-  apt-get install -y --no-install-recommends \
+  : "to fix vulnerabilities, update packages : 2020-04-27" && \
+  : apt-get install -y --no-install-recommends \
     libgnutls30 \
   && \
   : "install docker" && \
