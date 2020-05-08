@@ -1,78 +1,18 @@
-image: getto/hangar:latest
-
 stages:
-  - test
-  - image_build
-  - image_test
-  - image_update
-  - image_scheduled_test
-  - image_fix_vulnerabilities
+  - tool_update
   - bump_version
   - release
   - release_notify
 
-image_build:
-  stage: image_build
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - Dockerfile
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
-
-  cache:
-    key:
-      files:
-        - Dockerfile
-    paths:
-      - .build
-
-  before_script:
-    - mkdir -p .build
-  script:
-    - ./getto-hangar-build-to-file.sh .build/image.tar
-
-image_test:
-  stage: image_test
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - Dockerfile
-  needs:
-    - image_build
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
-
-  cache:
-    policy: pull
-    key:
-      files:
-        - Dockerfile
-    paths:
-      - .build
-
-  script:
-    - ./getto-hangar-test-from-file.sh .build/image.tar
-
-image_update:
-  stage: image_update
+tool_update:
+  stage: tool_update
   only:
     refs:
       - schedules
     variables:
       - $UPDATE
+
+  image: buildpack-deps:buster-scm
 
   before_script:
     - git config user.email admin@getto.systems
@@ -80,44 +20,9 @@ image_update:
     - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- /opt/getto-systems
     - export PATH=$PATH:/opt/getto-systems/git-post/bin
   script:
-    - ./scripts/update_version.sh
-
-image_scheduled_test:
-  stage: image_scheduled_test
-  only:
-    refs:
-      - schedules
-    variables:
-      - $CHECK
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-    image: getto/hangar
-  services:
-    - docker:dind
-
-  script:
-    - ./getto-hangar-test.sh
-
-image_fix_vulnerabilities:
-  stage: image_fix_vulnerabilities
-  only:
-    refs:
-      - schedules
-    variables:
-      - $CHECK
-  when: on_failure
-
-  before_script:
-    - git config user.email admin@getto.systems
-    - git config user.name getto
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
-    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
-  script:
-    - ./getto-hangar-fix-vulnerabilities.sh
-    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
+    - ./scripts/update_dockle.sh
+    - ./scripts/update_trivy.sh
+    - 'if [ "$(git status -s dist/*)" ]; then git commit -m "update: tool version"; curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/update-tool.sh; fi'
 
 bump_version:
   stage: bump_version
@@ -136,7 +41,7 @@ bump_version:
     - export PATH=$PATH:./vendor/getto-systems/git-post/bin
   script:
     - curl https://trellis.getto.systems/ci/bump-version/1.4.0/bump_version.sh | bash
-    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.bump-message.sh
+    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/bump.sh
 
 release:
   stage: release
@@ -150,16 +55,13 @@ release:
       - triggers
       - schedules
 
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
+  image: buildpack-deps:buster-scm
 
+  before_script:
+    - apt-get update && apt-get install -y python3-pip && pip3 install awscli
   script:
     - curl https://trellis.getto.systems/ci/bump-version/1.4.0/push_tags.sh | bash
-    - ./getto-hangar-push_latest.sh getto/hangar
+    - ./scripts/deploy.sh
 
 release_success:
   stage: release_notify

@@ -6,4 +6,7 @@ version=$(
   sed -E 's/.*"v([^"]+)".*/\1/' \
 )
 
-sed -i -e "s|DOCKLE_VERSION .*|DOCKLE_VERSION $version|" Dockerfile
+file=dist/install_dockle.sh
+
+sed -i -e "s|VERSION .*|VERSION $version|" $file &&
+git add $file
