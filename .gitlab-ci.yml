@@ -1,11 +1,14 @@
 stages:
-  - tool_update
+  - update_tools
   - bump_version
   - release
   - release_notify
 
-tool_update:
-  stage: tool_update
+variables:
+  TRELLIS_GIT_POST: https://trellis.getto.systems/git/post/1.0.0
+
+update_tools:
+  stage: update_tools
   only:
     refs:
       - schedules
@@ -17,7 +20,7 @@ tool_update:
   before_script:
     - git config user.email admin@getto.systems
     - git config user.name getto
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- /opt/getto-systems
+    - curl $TRELLIS_GIT_POST/setup.sh | bash -s -- /opt/getto-systems
     - export PATH=$PATH:/opt/getto-systems/git-post/bin
   script:
     - ./scripts/update_dockle.sh
