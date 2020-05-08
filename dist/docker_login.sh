@@ -1,7 +1,5 @@
 #!/bin/sh
 
-export HOME=$(pwd)
-
 key_root=$HOME/.docker/trust/private
 
 mkdir -p $key_root
