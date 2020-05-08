@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.0.0
+
+- release: version 3.0 ! : See merge request getto-systems-base/projects/hangar!150
+
+
 ## Version : 2.39.0
 
 - fix: docker_login : See merge request getto-systems-base/projects/hangar!148
