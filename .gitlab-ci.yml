@@ -22,7 +22,7 @@ tool_update:
   script:
     - ./scripts/update_dockle.sh
     - ./scripts/update_trivy.sh
-    - if [ "$(git status -s dist/*)" ]; then git commit -m "update: tool version"; curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/update-tool.sh; fi
+    - if \[ "$(git status -s dist/*)" \]; then git commit -m "update: tool version"; curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/update-tool.sh; fi
 
 bump_version:
   stage: bump_version
