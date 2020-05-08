@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.37.0
+
+- fix: separate docker login : See merge request getto-systems-base/projects/hangar!144
+
+
 ## Version : 2.36.0
 
 - fix: shebang : See merge request getto-systems-base/projects/hangar!142
