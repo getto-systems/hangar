@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.35.0
+
+- fix: package manager : See merge request getto-systems-base/projects/hangar!140
+
+
 ## Version : 2.34.0
 
 - fix: push : See merge request getto-systems-base/projects/hangar!138
