@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version : 2.33.0
+
+- add: fix-vulnerabilities : See merge request getto-systems-base/projects/hangar!136
+- fix: bump ignore : See merge request getto-systems-base/projects/hangar!135
+
+
 ## Version : 2.32.1
 
 - fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!133
