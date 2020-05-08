@@ -2,9 +2,18 @@
 
 export HOME=$(pwd)
 
-hangar_image=getto/hangar
-hangar_id=$(cat .getto-hangar-image | sed 's/.*://' | sed 's/-.*//')
-image=$hangar_image:$hangar_id-$(date +%Y%m%d%H%M%S)
+target=$1
+image=$2
+
+if [ -z "$target" ]; then
+  echo "usage: push.sh <Dockerfile> <image>"
+  exit 1
+fi
+
+if [ -z "$image" ]; then
+  echo "usage: push.sh <Dockerfile> <image>"
+  exit 1
+fi
 
 key_root=$HOME/.docker/trust/private
 
@@ -16,24 +25,6 @@ cat $DOCKER_CONTENT_TRUST_REPOSITORY_KEY > $key_root/$DOCKER_CONTENT_TRUST_REPOS
 chmod 600 $key_root/*.key
 
 cat $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin &&
-docker build -t $image . &&
+docker build -f $target -t $image . &&
 docker push $image &&
-:
-
-result=$?
-
-docker logout
-
-if [ $result != 0 ]; then
-  exit 1
-fi
-
-sed -i -e "s|image: $hangar_image:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml
-echo $image > .getto-hangar-image
-
-git add \
-  .gitlab-ci.yml \
-  .getto-hangar-image \
-&&
-git commit -m "update: image" &&
 :
