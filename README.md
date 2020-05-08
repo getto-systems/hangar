@@ -13,16 +13,22 @@ status : production ready
 
 ## Usage
 
-### pushing `getto/hangar:HANGAR-ID`
-
 `.gitlab-ci.yml` sample
 
 ```yaml
+image: <BASE_IMAGE>
+
 stages:
   - image_build
   - image_test
+  - image_scheduled_test
   - image_fix_vulnerabilities
   - image_push
+
+variables:
+  TRELLIS_HANGAR: https://trellis.getto.systems/hangar/2.39.0
+  TRELLIS_GIT_POST: https://trellis.getto.systems/git/post/1.0.0
+  TRELLIS_CI_BUMP_VERSION: https://trellis.getto.systems/ci/bump-version/1.4.0
 
 image_build:
   stage: image_build
@@ -34,45 +40,65 @@ image_build:
       - Dockerfile
       - Dockerfile-test
 
-  image: getto/hangar:latest
+  image: docker:stable
 
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_CONTENT_TRUST: 1
+
   services:
     - docker:dind
 
-  cache:
+  artifacts:
     paths:
-      - .cache
+      - .build/image.tar
+    expire_in: 1 day
 
+  before_script:
+    - mkdir -p .build
+    - export image=image:$CI_COMMIT_SHORT_SHA
   script:
-    - getto-hangar-build.sh
+    - docker build -t $image .
+    - sed -i -e "s|FROM.*|FROM $image|" Dockerfile-test
+    - docker build -t $image-test -f Dockerfile-test --disable-content-trust .
+    - docker run --rm --disable-content-trust $image-test
+    - docker image save $image --output .build/image.tar
+    - chown 1000:1000 .build/image.tar
 
 image_test:
   stage: image_test
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - package-lock.json
+      - Dockerfile
+      - Dockerfile-test
+  needs:
+    - image_build
+
+  before_script:
+    - curl $TRELLIS_HANGAR/install_trivy.sh | sh -s -- vendor
+    - curl $TRELLIS_HANGAR/install_dockle.sh | sh -s -- vendor
+  script:
+    - ./vendor/dockle --exit-code 1 --input .build/image.tar
+    - ./vendor/trivy --exit-code 1 --light --no-progress --ignore-unfixed --input .build/image.tar
+
+image_scheduled_test:
+  stage: image_scheduled_test
   only:
     refs:
       - schedules
     variables:
       - $CHECK
 
-  image: getto/hangar:latest
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
-
-  cache:
-    paths:
-      - .cache
-
+  before_script:
+    - curl $TRELLIS_HANGAR/install_trivy.sh | sh -s -- vendor
+    - curl $TRELLIS_HANGAR/install_dockle.sh | sh -s -- vendor
   script:
-    - getto-hangar-test.sh
+    - ./vendor/dockle --exit-code 1 $(cat .getto-hangar-image)
+    - ./vendor/trivy --exit-code 1 --light --no-progress --ignore-unfixed $(cat .getto-hangar-image)
 
 image_fix_vulnerabilities:
   stage: image_fix_vulnerabilities
@@ -83,22 +109,23 @@ image_fix_vulnerabilities:
       - $CHECK
   when: on_failure
 
-  image: getto/hangar:latest
+  image: buildpack-deps:buster-scm
 
   before_script:
-    - git config user.email COMMITER_EMAIL
-    - git config user.name COMMITER_NAME
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
+    - git config user.email admin@getto.systems
+    - git config user.name getto
+    - curl $TRELLIS_GIT_POST/setup.sh | sh -s -- ./vendor/getto-systems
     - export PATH=$PATH:./vendor/getto-systems/git-post/bin
   script:
-    - getto-hangar-fix-vulnerabilities.sh
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
+    - curl $TRELLIS_HANGAR/fix-vulnerabilities.sh | sh -s -- Dockerfile
+    - 'git add Dockerfile && git commit -m "fix: vulnerabilities"'
+    - curl $TRELLIS_CI_BUMP_VERSION/request.sh | sh -s -- ./.message/fix-vulnerabilities.sh
 
 image_push:
   stage: image_push
   only:
     refs:
-      - master@REPOSITORY_PATH
+      - master@<REPOSITORY_PATH>
     changes:
       - package-lock.json
       - Dockerfile
@@ -108,180 +135,99 @@ image_push:
       - schedules
       - triggers
 
-  image: getto/hangar:latest
+  image: docker:stable
 
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_CONTENT_TRUST: 1
-  before_script:
-    - git config user.email COMMITER_EMAIL
-    - git config user.name COMMITER_NAME
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
-    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
+
   services:
     - docker:dind
 
+  before_script:
+    - apk update && apk add bash git curl
+    - git config user.email admin@getto.systems
+    - git config user.name getto
+    - curl $TRELLIS_GIT_POST/setup.sh | sh -s -- ./vendor/getto-systems
+    - export HOME=$(pwd)
+    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
+    - export hangar_id=$(cat .getto-hangar-image | sed 's/.*://' | sed 's/-.*//')
+    - export image=getto/hangar:$hangar_id-$(date +%Y%m%d%H%M%S)
+    - curl $TRELLIS_HANGAR/docker_login.sh | sh
   script:
-    - getto-hangar-push.sh
-    - curl https://trellis.getto.systems/ci/bump-version/1.2.2/request.sh | bash -s -- ./.fix-image-message.sh
+    - docker build -t $image .
+    - docker push $image
+    - 'sed -i -e "s|image: getto/hangar:$hangar_id-\\?.*|image: $image|" .gitlab-ci.yml'
+    - echo $image > .getto-hangar-image
+    - 'git add .gitlab-ci.yml .getto-hangar-image && git commit -m "update: image"'
+    - curl $TRELLIS_CI_BUMP_VERSION/request.sh | sh -s -- ./.message/fix-image.sh
 ```
 
-replace settings
+environments
 
-- REPOSITORY_PATH
-- COMMITER_EMAIL
-- COMMITER_NAME
-
-require settings
-
-- .getto-hangar-image : `getto/hangar:HANGAR-ID`
-- DOCKER_USER
-- DOCKER_PASSWORD
-- DOCKER_CONTENT_TRUST_REPOSITORY_ID
-- DOCKER_CONTENT_TRUST_REPOSITORY_KEY
-- DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE
-- DOCKER_CONTENT_TRUST_ROOT_ID
-- DOCKER_CONTENT_TRUST_ROOT_KEY
-- DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
+- DOCKER_USER : var
+- DOCKER_PASSWORD : file
+- DOCKER_CONTENT_TRUST_REPOSITORY_ID : var
+- DOCKER_CONTENT_TRUST_REPOSITORY_KEY : file
+- DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE : var
+- DOCKER_CONTENT_TRUST_ROOT_ID : var
+- DOCKER_CONTENT_TRUST_ROOT_KEY : file
+- DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE : var
 
 
-### pushing own image
+### install_dockle.sh
 
-```yaml
-image: getto/hangar:latest
-
-stages:
-  - image_build
-  - image_test
-  - image_fix_vulnerabilities
-  - bump_version
-  - release
-  - release_notify
-
-image_build:
-  stage: image_build
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - Dockerfile
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
-
-  cache:
-    paths:
-      - .cache
-
-  script:
-    - getto-hangar-build.sh
-
-image_test:
-  stage: image_test
-  only:
-    refs:
-      - schedules
-    variables:
-      - $CHECK
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-    image: IMAGE_NAME
-  services:
-    - docker:dind
-
-  cache:
-    paths:
-      - .cache
-
-  script:
-    - getto-hangar-test.sh
-
-image_fix_vulnerabilities:
-  stage: image_fix_vulnerabilities
-  only:
-    refs:
-      - schedules
-    variables:
-      - $CHECK
-  when: on_failure
-
-  before_script:
-    - git config user.email COMMITER_EMAIL
-    - git config user.name COMMITER_NAME
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
-    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
-  script:
-    - getto-hangar-fix-vulnerabilities.sh
-    - curl https://trellis.getto.systems/ci/bump-version/1.3.0/request.sh | bash -s -- ./.fix-vulnerabilities-message.sh
-
-bump_version:
-  stage: bump_version
-  only:
-    refs:
-      - triggers
-    variables:
-      - $RELEASE
-
-  image: buildpack-deps:disco-scm
-
-  before_script:
-    - git config user.email COMMITER_EMAIL
-    - git config user.name COMMITER_NAME
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
-    - export PATH=$PATH:./vendor/getto-systems/git-post/bin
-  script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.3.0/bump_version.sh | bash
-    - curl https://trellis.getto.systems/ci/bump-version/1.3.0/request.sh | bash -s -- ./.bump-message.sh
-
-release:
-  stage: release
-  only:
-    refs:
-      - master@REPOSITORY_PATH
-    changes:
-      - .release-version
-  except:
-    refs:
-      - triggers
-      - schedules
-
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_CONTENT_TRUST: 1
-  services:
-    - docker:dind
-
-  script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.3.0/push_tags.sh | bash
-    - getto-hangar-push_latest.sh IMAGE_NAME
+```bash
+curl https://trellis.getto.systems/hangar/3.0.0/install_dockle.sh | sh -s -- <path/to/install/dir>
 ```
 
-replace settings
+install [dockle](https://github.com/goodwithtech/dockle)
 
-- IMAGE_NAME
-- REPOSITORY_PATH
-- COMMITER_EMAIL
-- COMMITER_NAME
+requirements
 
-require settings
+- curl
+- tar
+- gzip
 
-- DOCKER_USER
-- DOCKER_PASSWORD
-- DOCKER_CONTENT_TRUST_REPOSITORY_ID
-- DOCKER_CONTENT_TRUST_REPOSITORY_KEY
-- DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE
-- DOCKER_CONTENT_TRUST_ROOT_ID
-- DOCKER_CONTENT_TRUST_ROOT_KEY
-- DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE
+
+### install_trivy.sh
+
+```bash
+curl https://trellis.getto.systems/hangar/3.0.0/install_trivy.sh | sh -s -- <path/to/install/dir>
+```
+
+install [trivy](https://github.com/aquasecurity/trivy)
+
+requirements
+
+- curl
+- tar
+- gzip
+
+
+### docker_login.sh
+
+```bash
+curl https://trellis.getto.systems/hangar/3.0.0/docker_login.sh | sh
+```
+
+`docker login`
+
+requirements
+
+- docker cli
+
+environments
+
+- DOCKER_USER : var
+- DOCKER_PASSWORD : file
+- DOCKER_CONTENT_TRUST_REPOSITORY_ID : var
+- DOCKER_CONTENT_TRUST_REPOSITORY_KEY : file
+- DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE : var
+- DOCKER_CONTENT_TRUST_ROOT_ID : var
+- DOCKER_CONTENT_TRUST_ROOT_KEY : file
+- DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE : var
 
 
 ## License
