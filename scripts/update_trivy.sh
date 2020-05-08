@@ -6,4 +6,7 @@ version=$(
   sed -E 's/.*"v([^"]+)".*/\1/' \
 )
 
-sed -i -e "s|TRIVY_VERSION .*|TRIVY_VERSION $version|" Dockerfile
+file=dist/install_trivy.sh
+
+sed -i -e "s|VERSION .*|VERSION $version|" $file &&
+git add $file
