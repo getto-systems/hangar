@@ -15,5 +15,5 @@ fi
 
 sed -i \
   -e 's|: "'"$FIX_VULNERABILITIES_MARKER"' : .*"|: "'"$FIX_VULNERABILITIES_MARKER"' : '$(date --iso-8601)'"|' \
-  -e '/: "'"$FIX_VULNERABILITIES_MARKER"'/{n;s|[^:] \(apt-get\|dnf\)|  : \1|}' \
+  -e '/: "'"$FIX_VULNERABILITIES_MARKER"'/{n;s|[^:] \(apt-get\|dnf\|yum\)|  : \1|}' \
   $target
