@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.39.0
+
+- fix: docker_login : See merge request getto-systems-base/projects/hangar!148
+
+
 ## Version : 2.38.0
 
 - remove: push.sh : See merge request getto-systems-base/projects/hangar!146
