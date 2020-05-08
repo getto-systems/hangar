@@ -8,5 +8,5 @@ version=$(
 
 file=dist/install_trivy.sh
 
-sed -i -e "s|VERSION .*|VERSION $version|" $file &&
+sed -i -e "s|VERSION=.*|VERSION=$version|" $file &&
 git add $file
