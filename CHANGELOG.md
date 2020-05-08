@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Version : 2.32.1
+
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!133
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!132
+- update tools: 2020-05-08T02:00:42,820649185 00:00 : See merge request getto-systems-base/projects/hangar!131
+- fix: update scripts : See merge request getto-systems-base/projects/hangar!130
+
+- fix: trivy version : See merge request getto-systems-base/projects/hangar!129
+- deploy: trellis : See merge request getto-systems-base/projects/hangar!128
+- fix: gitlab-ci : See merge request getto-systems-base/projects/hangar!126
+
+
+
 ## Version : 2.32.0
 
 - fix: build and test : See merge request getto-systems-base/projects/hangar!124
