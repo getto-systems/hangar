@@ -6,6 +6,8 @@ stages:
 
 variables:
   TRELLIS_GIT_POST: https://trellis.getto.systems/git/post/1.0.0
+  TRELLIS_CI_BUMP_VERSION: https://trellis.getto.systems/ci/bump-version/1.4.0
+  TRELLIS_PSYCHER_GETTO: https://trellis.getto.systems/psycher/getto/2.6.0
 
 update_tools:
   stage: update_tools
@@ -25,7 +27,7 @@ update_tools:
   script:
     - ./scripts/update_dockle.sh
     - ./scripts/update_trivy.sh
-    - 'if [ "$(git status -s dist/*)" ]; then git commit -m "update: tool version"; curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/update-tool.sh; fi'
+    - 'if [ "$(git status -s dist/*)" ]; then git commit -m "update: tool version"; curl $TRELLIS_CI_BUMP_VERSION/request.sh | bash -s -- ./.message/update-tool.sh; fi'
 
 bump_version:
   stage: bump_version
@@ -40,11 +42,11 @@ bump_version:
   before_script:
     - git config user.email admin@getto.systems
     - git config user.name getto
-    - curl https://trellis.getto.systems/git/post/1.0.0/setup.sh | bash -s -- ./vendor/getto-systems
+    - curl $TRELLIS_GIT_POST/setup.sh | bash -s -- ./vendor/getto-systems
     - export PATH=$PATH:./vendor/getto-systems/git-post/bin
   script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/bump_version.sh | bash
-    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/request.sh | bash -s -- ./.message/bump.sh
+    - curl $TRELLIS_CI_BUMP_VERSION/bump_version.sh | bash
+    - curl $TRELLIS_CI_BUMP_VERSION/request.sh | bash -s -- ./.message/bump.sh
 
 release:
   stage: release
@@ -63,7 +65,7 @@ release:
   before_script:
     - apt-get update && apt-get install -y python3-pip && pip3 install awscli
   script:
-    - curl https://trellis.getto.systems/ci/bump-version/1.4.0/push_tags.sh | bash
+    - curl $TRELLIS_CI_BUMP_VERSION/push_tags.sh | bash
     - ./scripts/deploy.sh
 
 release_success:
@@ -86,7 +88,7 @@ release_success:
     - export channel=$SLACK_CHANNEL
     - export version=hangar:$(cat .release-version)
   script:
-    - curl https://trellis.getto.systems/psycher/getto/2.6.0/notify-release-success.sh | bash -s -- $url $channel $version
+    - curl $TRELLIS_PSYCHER_GETTO/notify-release-success.sh | bash -s -- $url $channel $version
 
 release_failure:
   stage: release_notify
@@ -108,4 +110,4 @@ release_failure:
     - export channel=$SLACK_CHANNEL
     - export version=hangar:$(cat .release-version)
   script:
-    - curl https://trellis.getto.systems/psycher/getto/2.6.0/notify-release-failure.sh | bash -s -- $url $channel $version
+    - curl $TRELLIS_PSYCHER_GETTO/notify-release-failure.sh | bash -s -- $url $channel $version
