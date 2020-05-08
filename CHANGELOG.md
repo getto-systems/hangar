@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 2.36.0
+
+- fix: shebang : See merge request getto-systems-base/projects/hangar!142
+
+
 ## Version : 2.35.0
 
 - fix: package manager : See merge request getto-systems-base/projects/hangar!140
