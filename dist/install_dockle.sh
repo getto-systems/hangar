@@ -9,7 +9,7 @@ if [ ! -d $target ]; then
   exit 1
 fi
 
-VERSION=0.2.0
+VERSION=0.2.4
 
 tmp=$target/dockle.tmp
 
