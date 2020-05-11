@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.2.0
+
+- fix: vulnerabilities script : See merge request getto-systems-base/projects/hangar!154
+
+
 ## Version : 3.1.0
 
 - add: package manager detection : See merge request getto-systems-base/projects/hangar!152
