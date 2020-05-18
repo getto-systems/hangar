@@ -19,6 +19,12 @@ deploy_to(){
     --cache-control "public, max-age=31536000" \
     --recursive \
     dist s3://$target/$version
+
+  aws s3 cp \
+    --acl private \
+    --cache-control "public, max-age=300" \
+    --recursive \
+    alias s3://$target/alias
 }
 deploy_check(){
   local target
