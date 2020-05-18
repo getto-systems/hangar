@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.4.0
+
+- add: load_trellis.sh : See merge request getto-systems-base/projects/hangar!158
+
+
 ## Version : 3.3.0
 
 - update tools: 2020-05-18T01:05:46,892950923 00:00 : See merge request getto-systems-base/projects/hangar!156
