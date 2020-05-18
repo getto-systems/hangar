@@ -7,7 +7,7 @@ load_trellis_main(){
   local version
   local path
 
-  root=https://trellis.getto.systems/
+  root=https://trellis.getto.systems
 
   target=$1
   alias=$2
