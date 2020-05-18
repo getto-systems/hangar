@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.5.0
+
+- fix: root url : See merge request getto-systems-base/projects/hangar!160
+
+
 ## Version : 3.4.0
 
 - add: load_trellis.sh : See merge request getto-systems-base/projects/hangar!158
