@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.6.0
+
+- update tools: 2020-06-01T01:05:53,368802721 00:00 : See merge request getto-systems-base/projects/hangar!162
+
+
 ## Version : 3.5.0
 
 - fix: root url : See merge request getto-systems-base/projects/hangar!160
