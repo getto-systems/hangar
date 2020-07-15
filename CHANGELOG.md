@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version : 3.7.1
+
+- fix: release version : See merge request getto-systems-base/projects/hangar!169
+- fix: trivy version : See merge request getto-systems-base/projects/hangar!168
+- fix: gitlab ci : See merge request getto-systems-base/projects/hangar!167
+
+
 ## Version : 3.5.0
 
 - fix: root url : See merge request getto-systems-base/projects/hangar!160
