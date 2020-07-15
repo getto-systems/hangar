@@ -125,7 +125,7 @@ image_push:
   stage: image_push
   only:
     refs:
-      - master@<REPOSITORY_PATH>
+      - release@<REPOSITORY_PATH>
     changes:
       - package-lock.json
       - Dockerfile
