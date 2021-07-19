@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version : 3.20.0
+
+- update tools: 2021-07-19T01:05:34,365547419 00:00 : See merge request getto-systems-base/projects/hangar!202
+
+
 ## Version : 3.19.0
 
 - update tools: 2021-06-14T01:05:35,684223682 00:00 : See merge request getto-systems-base/projects/hangar!200
