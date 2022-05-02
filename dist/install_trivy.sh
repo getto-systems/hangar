@@ -9,7 +9,7 @@ if [ ! -d $target ]; then
   exit 1
 fi
 
-VERSION=0.26.0
+VERSION=0.27.1
 
 tmp=$target/trivy.tmp
 
